@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Tick Sniper – AI Stock Momentum Predictor & Earnings Surprise Tracker</title>
+    <meta name="description" content="AI-powered stock scanner that predicts 5-day momentum, detects earnings surprises, and grades durable competitive advantage. Try free.">
+    <meta name="keywords" content="AI stock scanner, earnings surprise tracker, stock momentum predictor, durable competitive advantage, stock analysis tool">
+    <meta name="author" content="Tick Sniper">
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Tick Sniper – AI Stock Momentum Predictor">
+    <meta property="og:description" content="Predict 5-day stock moves, see earnings surprises before the crowd, and get durability grades. Free tier available.">
+    <meta property="og:image" content="https://your-streamlit-app.streamlit.app/logo.png"> <!-- Replace with your actual logo URL -->
+    <meta property="og:url" content="https://yourusername.github.io/ticksniper-landing/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%);
+            color: #eef2ff;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header / Nav */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #c084fc, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+        .logo span {
+            color: #facc15;
+            background: none;
+            -webkit-background-clip: unset;
+        }
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            margin-left: 28px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #60a5fa;
+        }
+        .btn-outline-light {
+            border: 1px solid #60a5fa;
+            background: transparent;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: #60a5fa;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-outline-light:hover {
+            background: rgba(96,165,250,0.1);
+        }
+
+        /* Hero */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 70px 0 60px;
+        }
+        .badge {
+            background: rgba(96,165,250,0.2);
+            color: #93c5fd;
+            padding: 6px 14px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            max-width: 900px;
+            background: linear-gradient(to right, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            max-width: 650px;
+            margin: 24px auto;
+        }
+        .cta-group {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 16px 0 24px;
+        }
+        .btn-primary {
+            background: linear-gradient(95deg, #3b82f6, #8b5cf6);
+            border: none;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 8px 20px rgba(59,130,246,0.3);
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 28px rgba(59,130,246,0.5);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #334155;
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-weight: 600;
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #60a5fa;
+        }
+
+        /* Feature grid */
+        .features {
+            padding: 60px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 48px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+        .card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 28px;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: 0.2s;
+        }
+        .card:hover {
+            border-color: #3b82f6;
+            background: rgba(30, 41, 59, 0.7);
+        }
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .card p {
+            color: #94a3b8;
+        }
+
+        /* Earnings surprise highlight */
+        .highlight {
+            background: linear-gradient(120deg, #0f172a, #1e1b4b);
+            border-radius: 40px;
+            padding: 48px 32px;
+            margin: 50px 0;
+            text-align: center;
+        }
+        .highlight h2 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+        .highlight span {
+            background: #10b98120;
+            color: #34d399;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 40px;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 50px 0;
+        }
+        .pricing-grid {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+        .pricing-card {
+            background: #0f172a;
+            border-radius: 32px;
+            padding: 32px;
+            width: 300px;
+            border: 1px solid #1e293b;
+        }
+        .pricing-card.pro {
+            border-color: #facc15;
+            background: #0f172a;
+            position: relative;
+        }
+        .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 20px 0;
+        }
+        .price small {
+            font-size: 1rem;
+            font-weight: normal;
+            color: #94a3b8;
+        }
+        .feature-list {
+            list-style: none;
+            margin: 24px 0;
+        }
+        .feature-list li {
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .check {
+            color: #22c55e;
+        }
+
+        /* Email capture form (Brevo) */
+        .newsletter {
+            background: #0f172a;
+            border-radius: 48px;
+            padding: 48px 32px;
+            text-align: center;
+            margin: 48px 0;
+        }
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .email-input {
+            padding: 14px 20px;
+            border-radius: 60px;
+            border: none;
+            width: 280px;
+            background: #1e293b;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+        .email-input:focus {
+            border: 1px solid #3b82f6;
+        }
+        .submit-email {
+            background: #3b82f6;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+        }
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        @media (max-width: 700px) {
+            .hero h1 { font-size: 2.2rem; }
+            .navbar { flex-direction: column; }
+            .nav-links a { margin: 0 12px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo">Tick <span>Sniper</span></div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#" id="launchAppBtn" class="btn-outline-light">Launch App →</a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <div class="badge">🔍 AI-Powered | Earnings Surprise | Durability Grade</div>
+        <h1>Predict stock moves<br>before the crowd</h1>
+        <p>Hybrid XGBoost/RF/LGBM model • 5-day probability • Quarterly earnings beat/miss • Durable advantage grading</p>
+        <div class="cta-group">
+            <button class="btn-primary" id="heroLaunchBtn">Try Free Scanner →</button>
+            <button class="btn-secondary" id="learnMoreBtn">Learn More</button>
+        </div>
+        <p style="font-size: 0.9rem;">⚡ Free tier: 5 scans • Pro: $20/month unlimited</p>
+    </div>
+
+    <div class="features" id="features">
+        <div class="section-title">What makes Tick Sniper different</div>
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-icon">📈</div>
+                <h3>Momentum prediction</h3>
+                <p>AI ensemble predicts probability of 5-day up move (any up / 2% / 3% / 5% targets).</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💰</div>
+                <h3>Earnings surprise</h3>
+                <p>See actual vs. estimate, color-coded beat/miss. Quarterly history with surprise percentage.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🏆</div>
+                <h3>Durability grade A–F</h3>
+                <p>9 financial metrics → durable competitive advantage score, like a moat rating.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔎</div>
+                <h3>Multi-ticker scanner</h3>
+                <p>Scan 130+ stocks for bullish signals, filter by sector, export CSV.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🛡️</div>
+                <h3>Take-profit & stop-loss</h3>
+                <p>ATR-based exit rules backtested – see historical win rate per probability bin.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📬</div>
+                <h3>Pro alerts</h3>
+                <p>Get email when your watched stock probability exceeds threshold.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="highlight">
+        <h2>⚡ Earnings surprise alert: <span>+32% beat</span></h2>
+        <p style="max-width: 600px; margin: 16px auto;">Last quarter, our model flagged earnings beats 2 days before the market reacted. See live examples inside the app.</p>
+    </div>
+
+    <div class="pricing" id="pricing">
+        <div class="section-title">Simple, transparent pricing</div>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Free</h3>
+                <div class="price">$0</div>
+                <ul class="feature-list">
+                    <li>✅ 5 full scans (single ticker)</li>
+                    <li>✅ Durability grade A–F</li>
+                    <li>✅ Earnings surprise history</li>
+                    <li>✅ Candlestick charts + RSI</li>
+                    <li>❌ No multi-ticker scanner</li>
+                    <li>❌ No email alerts</li>
+                </ul>
+                <button class="btn-secondary" id="freeSignupBtn" style="width:100%">Start Free</button>
+            </div>
+            <div class="pricing-card pro">
+                <h3>Pro</h3>
+                <div class="price">$20 <small>/month</small></div>
+                <ul class="feature-list">
+                    <li>✅ Unlimited scans</li>
+                    <li>✅ Full multi-ticker scanner</li>
+                    <li>✅ Email alerts & watchlist</li>
+                    <li>✅ Weekly earnings surprise report</li>
+                    <li>✅ Priority support</li>
+                    <li>✅ Cancel anytime</li>
+                </ul>
+                <button class="btn-primary" id="proSignupBtn" style="width:100%">Upgrade to Pro</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email capture (Brevo integration) -->
+    <div class="newsletter" id="newsletter">
+        <h3>📧 Free weekly earnings surprise report</h3>
+        <p>No spam. Get the top 5 earnings beats every Monday, plus exclusive scanner picks.</p>
+        <form id="brevoForm" action="https://api.brevo.com/v3/contacts" method="POST">
+            <div class="form-group">
+                <input type="email" name="email" id="emailInput" class="email-input" placeholder="Your email address" required>
+                <button type="submit" class="submit-email">Subscribe →</button>
+            </div>
+            <p style="font-size:0.8rem; margin-top:12px;">We respect your privacy. Unsubscribe anytime.</p>
+        </form>
+        <div id="formMessage" style="margin-top:16px;"></div>
+    </div>
+
+    <div class="footer">
+        © 2026 Tick Sniper – Precision stock market analysis for retail traders. Data from Yahoo Finance.
+    </div>
+</div>
+
+<script>
+    // ========== UTM & APP LINKING ==========
+    const STREAMLIT_APP_URL = "https://ai-swing-trade-scanner-316.streamlit.app/"; // Your Streamlit app URL
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmSource = urlParams.get('utm_source') || 'direct';
+    const utmMedium = urlParams.get('utm_medium') || 'organic';
+    const utmCampaign = urlParams.get('utm_campaign') || 'landing_page';
+    
+    function getAppUrl() {
+        let appUrl = STREAMLIT_APP_URL;
+        appUrl += `?utm_source=${encodeURIComponent(utmSource)}&utm_medium=${encodeURIComponent(utmMedium)}&utm_campaign=${encodeURIComponent(utmCampaign)}`;
+        appUrl += `&ref=landing`;
+        return appUrl;
+    }
+    
+    function launchApp() {
+        window.location.href = getAppUrl();
+    }
+    
+    document.getElementById('heroLaunchBtn')?.addEventListener('click', launchApp);
+    document.getElementById('launchAppBtn')?.addEventListener('click', launchApp);
+    document.getElementById('freeSignupBtn')?.addEventListener('click', launchApp);
+    document.getElementById('proSignupBtn')?.addEventListener('click', launchApp);
+    document.getElementById('learnMoreBtn')?.addEventListener('click', () => {
+        document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+    });
+    
+    // ========== SECURE SUBSCRIBE via YOUR WEBHOOK ==========
+    const WEBHOOK_URL = "https://stripe-webhook-e7lr.onrender.com/subscribe"; // Replace with your actual Render URL
+    
+    const form = document.getElementById('brevoForm');
+    const msgDiv = document.getElementById('formMessage');
+    
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('emailInput').value.trim();
+        if (!email) return;
+        
+        msgDiv.innerHTML = '<span style="color:#60a5fa;">Subscribing...</span>';
+        
+        try {
+            const response = await fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: email,
+                    utm_source: utmSource,
+                    utm_medium: utmMedium,
+                    utm_campaign: utmCampaign
+                })
+            });
+            
+            if (response.ok) {
+                msgDiv.innerHTML = '<span style="color:#22c55e;">✅ Subscribed! Check your inbox for the welcome report.</span>';
+                document.getElementById('emailInput').value = '';
+            } else {
+                const data = await response.json();
+                if (data.status === 'already_exists') {
+                    msgDiv.innerHTML = '<span style="color:#facc15;">📧 You\'re already subscribed. Thank you!</span>';
+                } else {
+                    msgDiv.innerHTML = '<span style="color:#ef4444;">Error. Please try again later.</span>';
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            msgDiv.innerHTML = '<span style="color:#ef4444;">Network error. Please check your connection.</span>';
+        }
+    });
+</script>
